@@ -1,0 +1,57 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: instrument-rental
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+jwt:
+  secret: ${JWT_SECRET:changeme-default-secret-key-min-256bits}
+  expiration-ms: 86400000
+  refresh-expiration-ms: 604800000
+
+wechat:
+  pay:
+    mch-id: ${WECHAT_MCH_ID:}
+    api-v3-key: ${WECHAT_API_V3_KEY:}
+    app-id: ${WECHAT_APP_ID:}
+    app-secret: ${WECHAT_APP_SECRET:}
+    private-key-path: ${WECHAT_PRIVATE_KEY_PATH:}
+    notify-url: ${WECHAT_NOTIFY_URL:}
+
+alipay:
+  app-id: ${ALIPAY_APP_ID:}
+  private-key: ${ALIPAY_PRIVATE_KEY:}
+  alipay-public-key: ${ALIPAY_PUBLIC_KEY:}
+  notify-url: ${ALIPAY_NOTIFY_URL:}
+
+logging:
+  level:
+    com.instrumentrental: DEBUG
