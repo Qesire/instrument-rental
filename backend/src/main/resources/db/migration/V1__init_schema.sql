@@ -158,18 +158,22 @@ CREATE TABLE operation_logs (
 -- =============================================================================
 
 -- instruments
-CREATE INDEX idx_instruments_status     ON instruments(status);
-CREATE INDEX idx_instruments_model_id   ON instruments(model_id);
-CREATE INDEX idx_instruments_warehouse  ON instruments(warehouse_id);
+CREATE INDEX idx_instruments_status       ON instruments(status);
+CREATE INDEX idx_instruments_model_id     ON instruments(model_id);
+CREATE INDEX idx_instruments_warehouse_id ON instruments(warehouse_id);
 
 -- reservations
-CREATE INDEX idx_reservations_user_id   ON reservations(user_id);
-CREATE INDEX idx_reservations_status    ON reservations(status);
-CREATE INDEX idx_reservations_time      ON reservations(start_time, end_time);
+CREATE INDEX idx_reservations_user_id       ON reservations(user_id);
+CREATE INDEX idx_reservations_instrument_id ON reservations(instrument_id);
+CREATE INDEX idx_reservations_status        ON reservations(status);
+CREATE INDEX idx_reservations_time_range    ON reservations(start_time, end_time);
 
 -- payments
-CREATE INDEX idx_payments_reservation   ON payments(reservation_id);
-CREATE INDEX idx_payments_transaction   ON payments(transaction_id);
+CREATE INDEX idx_payments_reservation_id ON payments(reservation_id);
+CREATE INDEX idx_payments_transaction_id ON payments(transaction_id);
+
+-- categories
+CREATE INDEX idx_categories_parent_id ON categories(parent_id);
 
 -- operation_logs
-CREATE INDEX idx_operation_logs_time    ON operation_logs(created_at);
+CREATE INDEX idx_operation_logs_created_at ON operation_logs(created_at);
