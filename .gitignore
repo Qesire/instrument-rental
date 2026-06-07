@@ -1,0 +1,9 @@
+.superpowers/
+.worktrees/
+worktrees/
+*.log
+target/
+node_modules/
+.idea/
+*.iml
+.DS_Store
