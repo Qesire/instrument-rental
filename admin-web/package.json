@@ -1,0 +1,23 @@
+{
+  "name": "instrument-rental-admin",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "vue": "^3.4.0",
+    "vue-router": "^4.3.0",
+    "pinia": "^2.1.0",
+    "axios": "^1.6.0",
+    "element-plus": "^2.5.0",
+    "@element-plus/icons-vue": "^2.3.0",
+    "echarts": "^5.5.0",
+    "dayjs": "^1.11.0"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "@vitejs/plugin-vue": "^5.0.0"
+  }
+}
