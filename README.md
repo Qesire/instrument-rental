@@ -68,7 +68,7 @@ npm install && npm run dev
 | 服务 | 端口 | 说明 |
 |------|------|------|
 | 后端 API | 8080 | Spring Boot REST API |
-| 管理后台 | 3000 | Vue 3 Admin |
+| 管理后台 | 5173 | Vue 3 Admin |
 | PostgreSQL | 5432 | instrument_rental 库 |
 | Redis | 6379 | 缓存/分布式锁 |
 | RabbitMQ | 5672 (+15672 管理界面) | 消息队列 |

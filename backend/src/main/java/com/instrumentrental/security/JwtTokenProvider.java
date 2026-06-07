@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-import java.util.Base64;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Component
@@ -23,8 +23,7 @@ public class JwtTokenProvider {
             @Value("${jwt.secret}") String secret,
             @Value("${jwt.expiration-ms}") long expirationMs,
             @Value("${jwt.refresh-expiration-ms}") long refreshExpirationMs) {
-        byte[] keyBytes = Base64.getDecoder().decode(secret);
-        this.key = Keys.hmacShaKeyFor(keyBytes);
+        this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
         this.expirationMs = expirationMs;
         this.refreshExpirationMs = refreshExpirationMs;
     }

@@ -1,0 +1,809 @@
+\documentclass[aspectratio=169,10pt]{beamer}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[frame number]
+
+\usepackage{amsmath,amssymb,booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{fontspec}
+\setmainfont{Noto Sans CJK SC}
+\setsansfont{Noto Sans CJK SC}
+\setmonofont{Noto Sans CJK SC}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric,fit,backgrounds,calc,
+                shadows,decorations.pathreplacing,shapes.multipart}
+
+% ------ 品牌色板 (音乐主题) ------
+\definecolor{primary}{HTML}{5B2C6F}     % 深紫 — 主色
+\definecolor{accent}{HTML}{E74C3C}      % 红 — 强调
+\definecolor{success}{HTML}{27AE60}     % 绿 — 正向
+\definecolor{warm}{HTML}{F39C12}        % 暖橙 — 价格/按钮
+\definecolor{light}{HTML}{F5E6F8}       % 浅紫背景
+\definecolor{dark}{HTML}{2C3E50}        % 深色文字
+\definecolor{gray}{HTML}{95A5A6}        % 灰色辅助
+\newcommand{\emphcolor}[1]{\textcolor{accent}{#1}}
+\newcommand{\good}[1]{\textcolor{success}{#1}}
+\newcommand{\price}[1]{\textcolor{warm}{#1}}
+\newcommand{\dimtext}[1]{\textcolor{gray}{#1}}
+
+% ------ 标题页样式 ------
+\setbeamercolor{title}{fg=primary}
+\setbeamercolor{frametitle}{fg=white,bg=primary}
+\setbeamercolor{structure}{fg=primary}
+
+\title{\textbf{乐享租}}
+\subtitle{让每一件乐器 \\ 遇见对的人}
+\author{音乐学院 × 计算机学院}
+\date{2026}
+
+\begin{document}
+
+% ============================================================
+\begingroup
+\setbeamertemplate{background}{
+  \begin{tikzpicture}[remember picture,overlay]
+    \fill[primary] (current page.south west) rectangle (current page.north east);
+    \draw[accent, line width=2pt] (3,2) arc[start angle=180, end angle=360, x radius=3cm, y radius=1.5cm];
+    \draw[white, line width=1.5pt] (5,4.5) arc[start angle=0, end angle=180, x radius=2cm, y radius=1cm];
+    \draw[warm, line width=1pt] (8,2.5) arc[start angle=270, end angle=450, x radius=1.2cm, y radius=2cm];
+    \node[white, opacity=0.08, font=\fontsize{120}{140}\selectfont] at (7,5) {♪};
+    \node[white, opacity=0.06, font=\fontsize{80}{100}\selectfont] at (3,1.5) {♫};
+    \node[white, opacity=0.06, font=\fontsize{100}{120}\selectfont] at (10,4) {♩};
+  \end{tikzpicture}
+}
+\begin{frame}[plain]
+  \begin{center}
+    \vspace{2cm}
+    {\fontsize{36}{44}\selectfont \textcolor{white}{\textbf{乐 享 租}}}
+    \vspace{0.8cm}
+
+    {\Large \textcolor{white!85}{让每一件乐器，遇见对的人}}
+    \vspace{1.2cm}
+
+    {\normalsize \textcolor{white!60}{一个面向音乐学院学生的乐器共享平台}}
+    \vspace{0.8cm}
+
+    \begin{tikzpicture}
+      \node[draw=white!40, rounded corners, inner sep=8pt, font=\small, text=white!90] {\textcolor{warm}{♪} 扫码即用 \quad \textcolor{warm}{♫} 按天计费 \quad \textcolor{warm}{♩} 想还就还};
+    \end{tikzpicture}
+  \end{center}
+\end{frame}
+\endgroup
+
+% ============================================================
+\begin{frame}{你有没有遇到过这些烦恼？}
+  \vspace{12pt}
+  \begin{columns}[T]
+    \column{0.33\textwidth}
+    \begin{center}
+      \begin{tikzpicture}
+        \node[circle, draw=accent, line width=2pt, minimum size=2cm, fill=accent!10] {};
+        \node[font=\fontsize{28}{32}\selectfont] {🎻};
+      \end{tikzpicture}
+      \vspace{8pt}
+
+      {\large 「想练一首新曲子，\\ 但家里的小提琴不够好」}
+    \end{center}
+
+    \column{0.33\textwidth}
+    \begin{center}
+      \begin{tikzpicture}
+        \node[circle, draw=warm, line width=2pt, minimum size=2cm, fill=warm!10] {};
+        \node[font=\fontsize{28}{32}\selectfont] {💸};
+      \end{tikzpicture}
+      \vspace{8pt}
+
+      {\large 「好乐器太贵了，\\ 买不起也放不下」}
+    \end{center}
+
+    \column{0.33\textwidth}
+    \begin{center}
+      \begin{tikzpicture}
+        \node[circle, draw=primary, line width=2pt, minimum size=2cm, fill=primary!10] {};
+        \node[font=\fontsize{28}{32}\selectfont] {🎹};
+      \end{tikzpicture}
+      \vspace{8pt}
+
+      {\large 「想试试钢琴，\\  但不知道适不适合自己」}
+    \end{center}
+  \end{columns}
+
+  \vspace{20pt}
+  \begin{center}
+    {\Large \emphcolor{如果有一个地方，可以随时租、随时还……}}
+  \end{center}
+\end{frame}
+
+% ============================================================
+\begin{frame}{乐享租 — 你的学院乐器库}
+  \vspace{-2pt}
+  \begin{center}
+    \begin{tikzpicture}[
+      phone/.style={draw=dark, rounded corners=12pt, minimum width=2.6cm,
+                    minimum height=5.2cm, fill=white, drop shadow},
+      screen/.style={fill=light, rounded corners=6pt, minimum width=2.2cm, minimum height=3.8cm},
+      btn/.style={fill=primary, rounded corners=4pt, minimum width=1.6cm, minimum height=0.5cm, font=\tiny, text=white},
+      instrument/.style={font=\fontsize{16}{18}\selectfont}
+    ]
+
+    % Phone 1 - Browse
+    \node[phone] (p1) at (0,0) {};
+    \node[screen, above=0.1cm of p1.center, yshift=-0.3cm] {
+      \begin{tikzpicture}
+        \node[font=\footnotesize\bfseries, text=primary] at (0,1.2) {乐器广场};
+        \node[instrument] at (-0.5,0.2) {🎸};
+        \node[font=\tiny, right=0.05cm] at (-0.2,0.2) {吉他};
+        \node[instrument] at (0.5,0.2) {🎻};
+        \node[font=\tiny, right=0.05cm] at (0.8,0.2) {小提琴};
+        \node[instrument] at (-0.5,-0.8) {🎹};
+        \node[font=\tiny, right=0.05cm] at (-0.2,-0.8) {电子琴};
+        \node[instrument] at (0.5,-0.8) {🥁};
+        \node[font=\tiny, right=0.05cm] at (0.8,-0.8) {架子鼓};
+      \end{tikzpicture}
+    };
+    \node[font=\small, below=0.3cm of p1] {\textbf{浏览乐器}};
+    \node[font=\footnotesize, text=gray, below=0.1cm of p1, yshift=-0.8cm] {几十种型号任选};
+
+    % Arrow 1
+    \draw[-{Stealth}, thick, warm] (p1.east) ++(0.2,0) -- ++(0.8,0);
+
+    % Phone 2 - Reserve
+    \node[phone, right=1.8cm of p1] (p2) {};
+    \node[screen, above=0.1cm of p2.center, yshift=-0.3cm] {
+      \begin{tikzpicture}
+        \node[font=\footnotesize\bfseries, text=primary] at (0,1.2) {确认预约};
+        \node[font=\tiny] at (0,0.5) {Yamaha FG800};
+        \node[font=\tiny, text=gray] at (0,0.05) {6.12 — 6.14};
+        \node[font=\tiny] at (0,-0.4) {3天 · \price{¥360}};
+        \node[btn] at (0,-1.2) {立即预约};
+      \end{tikzpicture}
+    };
+    \node[font=\small, below=0.3cm of p2] {\textbf{一键预约}};
+    \node[font=\footnotesize, text=gray, below=0.1cm of p2, yshift=-0.8cm] {选好时间就下单};
+
+    % Arrow 2
+    \draw[-{Stealth}, thick, warm] (p2.east) ++(0.2,0) -- ++(0.8,0);
+
+    % Phone 3 - Pay
+    \node[phone, right=1.8cm of p2] (p3) {};
+    \node[screen, above=0.1cm of p3.center, yshift=-0.3cm] {
+      \begin{tikzpicture}
+        \node[font=\footnotesize\bfseries, text=primary] at (0,1.2) {扫码支付};
+        \node[font=\fontsize{24}{28}\selectfont] at (0,0) {📱};
+        \node[font=\tiny] at (0,-0.7) {微信 / 支付宝};
+        \node[font=\tiny, text=gray] at (0,-1.1) {押金 ¥720};
+      \end{tikzpicture}
+    };
+    \node[font=\small, below=0.3cm of p3] {\textbf{在线支付}};
+    \node[font=\footnotesize, text=gray, below=0.1cm of p3, yshift=-0.8cm] {30分钟内完成};
+  \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+% ============================================================
+\begin{frame}{随时随地，拿到就练}
+  \vspace{6pt}
+  \begin{columns}[T]
+    \column{0.45\textwidth}
+    \begin{center}
+      \begin{tikzpicture}[
+        phone/.style={draw=dark, rounded corners=12pt, minimum width=3cm,
+                      minimum height=6cm, fill=white, drop shadow},
+        screen/.style={fill=light, rounded corners=6pt, minimum width=2.6cm, minimum height=4.5cm}
+      ]
+        \node[phone] {};
+        \node[screen, above=0.1cm of phone.center, yshift=-0.35cm] {
+          \begin{tikzpicture}
+            \node[font=\footnotesize\bfseries, text=primary] at (0,1.5) {取货码};
+            \node[font=\fontsize{28}{32}\selectfont\bfseries, text=accent] at (0,0.3) {295831};
+            \node[font=\tiny, text=gray] at (0,-0.5) {到学院仓库出示此码};
+            \node[font=\fontsize{20}{24}\selectfont] at (0,-1.2) {📦};
+          \end{tikzpicture}
+        };
+      \end{tikzpicture}
+
+      \vspace{6pt}
+      {\large \textbf{出示取货码，拿到就走}}
+    \end{center}
+
+    \column{0.55\textwidth}
+    \begin{center}
+      \begin{tikzpicture}[
+        stepbg/.style={draw=primary!20, rounded corners=8pt, fill=primary!5,
+                       minimum width=6cm, minimum height=1.8cm, font=\small}
+      ]
+        \node[stepbg] (s1) at (0,0) {
+          \begin{minipage}{5.5cm}
+            \centering
+            \textbf{① 支付即锁定} \\
+            {\footnotesize \dimtext{你的乐器就已经预留好了}}
+          \end{minipage}
+        };
+
+        \node[stepbg, below=0.4cm of s1] (s2) {
+          \begin{minipage}{5.5cm}
+            \centering
+            \textbf{② 到仓库扫码} \\
+            {\footnotesize \dimtext{学院仓库管理员扫码确认}}
+          \end{minipage}
+        };
+
+        \node[stepbg, below=0.4cm of s2] (s3) {
+          \begin{minipage}{5.5cm}
+            \centering
+            \textbf{③ 拿走开始练} \\
+            {\footnotesize \dimtext{即日起计时，按天计费}}
+          \end{minipage}
+        };
+
+        \draw[-{Stealth}, thick, success] (s1.south) -- (s2.north);
+        \draw[-{Stealth}, thick, success] (s2.south) -- (s3.north);
+      \end{tikzpicture}
+    \end{center}
+  \end{columns}
+\end{frame}
+
+% ============================================================
+\begin{frame}{用完即还，轻松快捷}
+  \vspace{6pt}
+  \begin{columns}[T]
+    \column{0.45\textwidth}
+    \begin{center}
+      \begin{tikzpicture}[
+        phone/.style={draw=dark, rounded corners=12pt, minimum width=3cm,
+                      minimum height=6cm, fill=white, drop shadow},
+        screen/.style={fill=light, rounded corners=6pt, minimum width=2.6cm, minimum height=4.5cm}
+      ]
+        \node[phone] {};
+        \node[screen, above=0.1cm of phone.center, yshift=-0.35cm] {
+          \begin{tikzpicture}
+            \node[font=\footnotesize\bfseries, text=primary] at (0,1.5) {归还确认};
+            \node[font=\fontsize{20}{24}\selectfont] at (0,0.3) {🎸};
+            \node[font=\tiny] at (0,-0.5) {Yamaha FG800};
+            \node[font=\tiny, text=gray] at (0,-1.1) {实际使用 3 天};
+            \node[font=\footnotesize\bfseries, text=success] at (0,-1.6) {归还成功！};
+          \end{tikzpicture}
+        };
+      \end{tikzpicture}
+
+      \vspace{6pt}
+      {\large \textbf{扫条形码，秒速归还}}
+    \end{center}
+
+    \column{0.55\textwidth}
+    \vspace{4pt}
+    \begin{center}
+      \begin{tikzpicture}[
+        stepbg/.style={draw=primary!20, rounded corners=8pt, fill=primary!5,
+                       minimum width=6cm, minimum height=1.8cm, font=\small}
+      ]
+        \node[stepbg] (s1) at (0,0) {
+          \begin{minipage}{5.5cm}
+            \centering
+            \textbf{① 带回仓库} \\
+            {\footnotesize \dimtext{用完把乐器送回学院仓库}}
+          \end{minipage}
+        };
+
+        \node[stepbg, below=0.4cm of s1] (s2) {
+          \begin{minipage}{5.5cm}
+            \centering
+            \textbf{② 管理员扫码} \\
+            {\footnotesize \dimtext{扫描乐器上的条形码确认}}
+          \end{minipage}
+        };
+
+        \node[stepbg, below=0.4cm of s2] (s3) {
+          \begin{minipage}{5.5cm}
+            \centering
+            \textbf{③ 押金自动退回} \\
+            {\footnotesize \dimtext{还琴即退，无需额外操作}}
+          \end{minipage}
+        };
+
+        \draw[-{Stealth}, thick, success] (s1.south) -- (s2.north);
+        \draw[-{Stealth}, thick, success] (s2.south) -- (s3.north);
+      \end{tikzpicture}
+    \end{center}
+  \end{columns}
+\end{frame}
+
+% ============================================================
+\begin{frame}{花多少钱？一目了然}
+  \begin{columns}[T]
+    \column{0.42\textwidth}
+    \begin{center}
+      \begin{tikzpicture}[
+        card/.style={draw=primary!30, rounded corners=10pt, fill=white,
+                     minimum width=5cm, minimum height=2.2cm, drop shadow}
+      ]
+        \node[card] at (0,0) {
+          \begin{minipage}{4.5cm}
+            \centering
+            {\large 🎸 \textbf{Yamaha FG800 吉他}} \\
+            \vspace{2pt}
+            {\normalsize 日租 \price{\textbf{¥100}}}
+          \end{minipage}
+        };
+
+        \node[card, below=0.3cm] at (0,0) {
+          \begin{minipage}{4.5cm}
+            \centering
+            {\large 🎻 \textbf{Stentor 小提琴}} \\
+            \vspace{2pt}
+            {\normalsize 日租 \price{\textbf{¥80}}}
+          \end{minipage}
+        };
+
+        \node[card, below=0.6cm] at (0,0) {
+          \begin{minipage}{4.5cm}
+            \centering
+            {\large 🎹 \textbf{Yamaha P45 电子琴}} \\
+            \vspace{2pt}
+            {\normalsize 日租 \price{\textbf{¥120}}}
+          \end{minipage}
+        };
+
+        \node[card, below=0.9cm] at (0,0) {
+          \begin{minipage}{4.5cm}
+            \centering
+            {\large 🥁 \textbf{Roland 电子鼓}} \\
+            \vspace{2pt}
+            {\normalsize 日租 \price{\textbf{¥150}}}
+          \end{minipage}
+        };
+      \end{tikzpicture}
+    \end{center}
+
+    \column{0.55\textwidth}
+    \vspace{8pt}
+
+    \begin{block}{费用说明}
+      \textbf{租金} = 每日租金 × 使用天数
+
+      \vspace{4pt}
+      \textbf{押金} = 日租金的 2 倍
+
+      \vspace{4pt}
+      \dimtext{（归还后自动退还）}
+    \end{block}
+
+    \vspace{8pt}
+    \begin{exampleblock}{举个例子}
+      {\small 借一把 \textbf{Yamaha FG800} 吉他 3 天：}
+
+      \vspace{4pt}
+      {\large 租金：\price{¥100} × 3 = \price{\textbf{¥360}}}
+
+      \vspace{4pt}
+      {\large 押金：\price{¥200}（还琴即退）}
+
+      \vspace{4pt}
+      {\normalsize \dimtext{实际花费仅 \price{\textbf{¥360}}}
+       \quad \good{✓} 比买一把便宜 10 倍！}
+    \end{exampleblock}
+  \end{columns}
+\end{frame}
+
+% ============================================================
+\begin{frame}{周末练琴？节假日冲刺？都不加价}
+  \vspace{8pt}
+  \begin{center}
+    \begin{tikzpicture}[
+      card/.style={draw, rounded corners=8pt, minimum width=3cm, minimum height=3.2cm,
+                   fill=white, drop shadow},
+      highlight/.style={draw=success, line width=1.5pt, rounded corners=8pt, minimum width=3cm,
+                        minimum height=3.2cm, fill=success!5,
+                        drop shadow}
+    ]
+      \node[card] (d1) at (0,0) {
+        \begin{minipage}{2.5cm}\centering
+          {\fontsize{28}{32}\selectfont 1} \\
+          \vspace{4pt}
+          {\normalsize 第 \textbf{1--3} 天} \\
+          \vspace{2pt}
+          {\large \price{¥100}/天} \\
+          \vspace{2pt}
+          {\footnotesize \dimtext{短租价}}
+        \end{minipage}
+      };
+
+      \node[highlight, right=0.5cm of d1] (d2) {
+        \begin{minipage}{2.5cm}\centering
+          {\fontsize{28}{32}\selectfont 4} \\
+          \vspace{4pt}
+          {\normalsize 第 \textbf{4--7} 天} \\
+          \vspace{2pt}
+          {\large \good{¥85}/天} \\
+          \vspace{2pt}
+          {\footnotesize \good{85折}}
+        \end{minipage}
+      };
+
+      \node[card, right=0.5cm of d2] (d3) {
+        \begin{minipage}{2.5cm}\centering
+          {\fontsize{28}{32}\selectfont 8} \\
+          \vspace{4pt}
+          {\normalsize 第 \textbf{8--15} 天} \\
+          \vspace{2pt}
+          {\large \price{¥70}/天} \\
+          \vspace{2pt}
+          {\footnotesize \dimtext{7 折}}
+        \end{minipage}
+      };
+
+      \node[card, right=0.5cm of d3] (d4) {
+        \begin{minipage}{2.5cm}\centering
+          {\fontsize{28}{32}\selectfont 16} \\
+          \vspace{4pt}
+          {\normalsize 第 \textbf{16+} 天} \\
+          \vspace{2pt}
+          {\large \price{¥55}/天} \\
+          \vspace{2pt}
+          {\footnotesize \dimtext{长期优惠}}
+        \end{minipage}
+      };
+    \end{tikzpicture}
+  \end{center}
+
+  \vspace{8pt}
+  \begin{center}
+    \begin{tikzpicture}
+      \node[draw=primary!20, rounded corners=8pt, fill=primary!3,
+            minimum width=13cm, minimum height=1.2cm] {
+        \begin{minipage}{12cm}\centering
+          {\normalsize \textbf{租得越久越划算} \quad
+           \dimtext{|} \quad
+           周末和节假日 \good{\textbf{不额外加价}}
+           \quad \dimtext{|} \quad
+           考试周冲刺练琴的最佳选择}
+        \end{minipage}
+      };
+    \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+% ============================================================
+\begin{frame}{不止是租赁 — 每一件乐器都被好好照顾}
+  \vspace{8pt}
+  \begin{center}
+    \begin{tikzpicture}[
+      step/.style={draw=primary!30, rounded corners=8pt, fill=primary!5,
+                   minimum width=3.2cm, minimum height=1.5cm, font=\small},
+      arr/.style={-{Stealth}, thick, success}
+    ]
+      \node[step] (s1) at (0,0) {
+        \begin{minipage}{2.8cm}\centering
+          {\fontsize{18}{22}\selectfont 🔍} \\
+          归还时检查
+        \end{minipage}
+      };
+
+      \node[step, right=0.6cm of s1] (s2) {
+        \begin{minipage}{2.8cm}\centering
+          {\fontsize{18}{22}\selectfont 🧹} \\
+          清洁 & 保养
+        \end{minipage}
+      };
+
+      \node[step, right=0.6cm of s2] (s3) {
+        \begin{minipage}{2.8cm}\centering
+          {\fontsize{18}{22}\selectfont 🔧} \\
+          调音 & 维修
+        \end{minipage}
+      };
+
+      \node[step, right=0.6cm of s3] (s4) {
+        \begin{minipage}{2.8cm}\centering
+          {\fontsize{18}{22}\selectfont ✅} \\
+          重新上架
+        \end{minipage}
+      };
+
+      \draw[arr] (s1) -- (s2);
+      \draw[arr] (s2) -- (s3);
+      \draw[arr] (s3) -- (s4);
+    \end{tikzpicture}
+  \end{center}
+
+  \vspace{12pt}
+  \begin{columns}[T]
+    \column{0.48\textwidth}
+    \begin{block}{对学生的好处}
+      \begin{itemize}
+        \item 每次拿到的都是 \good{\textbf{调试好的乐器}}
+        \item 有问题？\good{\textbf{随时换}}，不影响练琴
+        \item 不用操心保养和维护
+      \end{itemize}
+    \end{block}
+
+    \column{0.48\textwidth}
+    \begin{alertblock}{损坏了怎么办？}
+      \begin{itemize}
+        \item 正常使用损耗 \good{\textbf{不收费}}
+        \item 意外损坏按维修成本分摊
+        \item 归还时和管理员一起确认即可
+      \end{itemize}
+    \end{alertblock}
+  \end{columns}
+\end{frame}
+
+% ============================================================
+\begin{frame}{忘记还琴？别担心，有贴心提醒}
+  \vspace{12pt}
+  \begin{center}
+    \begin{tikzpicture}[
+      notify/.style={draw=primary!20, rounded corners=8pt, fill=white,
+                     minimum width=10cm, minimum height=1.2cm,
+                     drop shadow}
+    ]
+      \node[notify] (n1) at (0,0) {
+        \begin{minipage}{9cm}
+          {\normalsize 📱 \textbf{到期前一天}} \hfill
+          {\normalsize \dimtext{微信消息提醒}}
+        \end{minipage}
+      };
+
+      \node[notify, below=0.4cm of n1] (n2) {
+        \begin{minipage}{9cm}
+          {\normalsize ⏰ \textbf{到期当天}} \hfill
+          {\normalsize \dimtext{再次提醒归还}}
+        \end{minipage}
+      };
+
+      \node[notify, below=0.4cm of n2] (n3) {
+        \begin{minipage}{9cm}
+          {\normalsize ☎️ \textbf{逾期未还}} \hfill
+          {\normalsize \dimtext{管理员主动联系}}
+        \end{minipage}
+      };
+
+      \draw[-{Stealth}, thick, warm] (n1.south) -- (n2.north);
+      \draw[-{Stealth}, thick, warm] (n2.south) -- (n3.north);
+    \end{tikzpicture}
+  \end{center}
+
+  \vspace{16pt}
+  \begin{center}
+    \begin{tikzpicture}
+      \node[draw=success!30, rounded corners=12pt, fill=success!5,
+            minimum width=12cm, minimum height=1.5cm] {
+        \begin{minipage}{11cm}\centering
+          {\normalsize \good{💡} \textbf{小贴士：}
+           如果还需要继续用，可以在小程序上 \good{\textbf{一键续租}}，
+           不用归还再借！}
+        \end{minipage}
+      };
+    \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+% ============================================================
+\begin{frame}{我们有什么乐器？}
+  \vspace{6pt}
+  \begin{center}
+    \begin{tikzpicture}[
+      cat/.style={draw=primary!20, rounded corners=6pt, fill=white, minimum width=2.8cm,
+                  minimum height=1.8cm, font=\small, drop shadow}
+    ]
+      \node[cat] (c1) at (0,0) {
+        \begin{minipage}{2.4cm}\centering
+          {\fontsize{20}{24}\selectfont 🎸} \\
+          吉他 / 贝斯 \\
+          {\footnotesize \dimtext{15 种型号}}
+        \end{minipage}
+      };
+
+      \node[cat, right=0.4cm of c1] (c2) {
+        \begin{minipage}{2.4cm}\centering
+          {\fontsize{20}{24}\selectfont 🎻} \\
+          小提琴 / 大提琴 \\
+          {\footnotesize \dimtext{8 种型号}}
+        \end{minipage}
+      };
+
+      \node[cat, right=0.4cm of c2] (c3) {
+        \begin{minipage}{2.4cm}\centering
+          {\fontsize{20}{24}\selectfont 🎹} \\
+          电子琴 / 钢琴 \\
+          {\footnotesize \dimtext{6 种型号}}
+        \end{minipage}
+      };
+
+      \node[cat, right=0.4cm of c3] (c4) {
+        \begin{minipage}{2.4cm}\centering
+          {\fontsize{20}{24}\selectfont 🥁} \\
+          架子鼓 / 打击乐 \\
+          {\footnotesize \dimtext{5 种型号}}
+        \end{minipage}
+      };
+
+      \node[cat, below=0.4cm of c1] (c5) {
+        \begin{minipage}{2.4cm}\centering
+          {\fontsize{20}{24}\selectfont 🎺} \\
+          管乐器 \\
+          {\footnotesize \dimtext{7 种型号}}
+        \end{minipage}
+      };
+
+      \node[cat, right=0.4cm of c5] (c6) {
+        \begin{minipage}{2.4cm}\centering
+          {\fontsize{20}{24}\selectfont 🎵} \\
+          民族乐器 \\
+          {\footnotesize \dimtext{10 种型号}}
+        \end{minipage}
+      };
+
+      \node[cat, right=0.4cm of c6] (c7) {
+        \begin{minipage}{2.4cm}\centering
+          {\fontsize{20}{24}\selectfont 🎤} \\
+          录音 / 音响设备 \\
+          {\footnotesize \dimtext{4 种型号}}
+        \end{minipage}
+      };
+
+      \node[cat, right=0.4cm of c7] (c8) {
+        \begin{minipage}{2.4cm}\centering
+          {\fontsize{20}{24}\selectfont 🎼} \\
+          乐谱 / 配件 \\
+          {\footnotesize \dimtext{按需提供}}
+        \end{minipage}
+      };
+    \end{tikzpicture}
+  \end{center}
+
+  \vspace{12pt}
+  \begin{center}
+    {\Large 覆盖 \emphcolor{\textbf{8 大类 · 55+ 种型号}}，满足不同专业需求}
+  \end{center}
+\end{frame}
+
+% ============================================================
+\begin{frame}{乐享租 vs 自己买 — 哪个更划算？}
+  \vspace{6pt}
+  \begin{center}
+    \begin{tikzpicture}[
+      hleft/.style={font=\small, text width=3cm, align=left},
+      hright/.style={font=\small, text width=4.5cm, align=center}
+    ]
+      % Header
+      \node[font=\bfseries] at (-4,2) {};
+      \node[font=\bfseries\large, text=accent] at (2, 2.2) {\textbf{乐享租}};
+      \node[font=\bfseries\large, text=gray] at (7, 2.2) {\textbf{自己买}};
+
+      \draw[gray!30, thick] (-6,1.8) -- (10,1.8);
+
+      % Rows
+      \node[hleft] at (-4,1.0) {入门吉他};
+      \node[hright] at (2,1.0) {\good{¥360}（租 3 天）};
+      \node[hright] at (7,1.0) {\dimtext{¥2,000+}};
+
+      \draw[gray!20] (-6,0.5) -- (10,0.5);
+
+      \node[hleft] at (-4,0.0) {考级小提琴};
+      \node[hright] at (2,0.0) {\good{¥800}（租 10 天）};
+      \node[hright] at (7,0.0) {\dimtext{¥5,000+}};
+
+      \draw[gray!20] (-6,-0.5) -- (10,-0.5);
+
+      \node[hleft] at (-4,-1.0) {电钢琴};
+      \node[hright] at (2,-1.0) {\good{¥3600}（租 30 天）};
+      \node[hright] at (7,-1.0) {\dimtext{¥15,000+}};
+
+      \draw[gray!20] (-6,-1.5) -- (10,-1.5);
+
+      \node[hleft] at (-4,-2.0) {专业架子鼓};
+      \node[hright] at (2,-2.0) {\good{¥1500}（租 10 天）};
+      \node[hright] at (7,-2.0) {\dimtext{¥8,000+}};
+
+      \draw[gray!30, thick] (-6,-2.5) -- (10,-2.5);
+
+      \node[hleft] at (-4,-3.0) {\textbf{试错成本}};
+      \node[hright, font=\large] at (2,-3.0) {\good{\textbf{几乎为零}}};
+      \node[hright] at (7,-3.0) {\dimtext{不喜欢就亏大了}};
+    \end{tikzpicture}
+  \end{center}
+
+  \vspace{8pt}
+  \begin{center}
+    \begin{tikzpicture}
+      \node[draw=accent!30, rounded corners=10pt, fill=accent!5,
+            minimum width=10cm, minimum height=1cm, font=\large] {
+        \emphcolor{\textbf{先租后买}} —— 试好了再决定，不花冤枉钱
+      };
+    \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+% ============================================================
+\begin{frame}{总结：为什么选择乐享租？}
+  \vspace{8pt}
+  \begin{columns}[T]
+    \column{0.30\textwidth}
+    \begin{center}
+      \begin{tikzpicture}
+        \node[circle, draw=primary, line width=2pt, fill=primary!10, minimum size=2.2cm] {};
+        \node[font=\fontsize{32}{36}\selectfont] {💰};
+      \end{tikzpicture}
+      \vspace{6pt}
+
+      {\large \textbf{省钱}}
+
+      \vspace{4pt}
+      {\normalsize \dimtext{按天付费} \\ \dimtext{比买便宜 10 倍} \\ \dimtext{押金全额退还}}
+    \end{center}
+
+    \column{0.30\textwidth}
+    \begin{center}
+      \begin{tikzpicture}
+        \node[circle, draw=primary, line width=2pt, fill=primary!10, minimum size=2.2cm] {};
+        \node[font=\fontsize{32}{36}\selectfont] {⚡};
+      \end{tikzpicture}
+      \vspace{6pt}
+
+      {\large \textbf{省心}}
+
+      \vspace{4pt}
+      {\normalsize \dimtext{扫码即用} \\ \dimtext{保养维修不用管} \\ \dimtext{到期自动提醒}}
+    \end{center}
+
+    \column{0.30\textwidth}
+    \begin{center}
+      \begin{tikzpicture}
+        \node[circle, draw=primary, line width=2pt, fill=primary!10, minimum size=2.2cm] {};
+        \node[font=\fontsize{32}{36}\selectfont] {🎯};
+      \end{tikzpicture}
+      \vspace{6pt}
+
+      {\large \textbf{自由}}
+
+      \vspace{4pt}
+      {\normalsize \dimtext{想换就换} \\ \dimtext{试好再买} \\ \dimtext{55+ 型号可选}}
+    \end{center}
+  \end{columns}
+
+  \vspace{16pt}
+  \begin{center}
+    \begin{tikzpicture}
+      \fill[primary!8, rounded corners=12pt] (-7,-0.8) rectangle (7,0.8);
+      \node[font=\LARGE\bfseries, text=primary] {
+        你的下一件乐器，何必是买的？
+      };
+    \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+% ============================================================
+\begingroup
+\setbeamertemplate{background}{
+  \begin{tikzpicture}[remember picture,overlay]
+    \fill[primary] (current page.south west) rectangle (current page.north east);
+    \node[white, opacity=0.06, font=\fontsize{100}{120}\selectfont] at (5,3) {♪};
+    \node[white, opacity=0.06, font=\fontsize{80}{100}\selectfont] at (10,5) {♫};
+    \node[white, opacity=0.06, font=\fontsize{90}{110}\selectfont] at (2,6) {♩};
+  \end{tikzpicture}
+}
+\begin{frame}[plain]
+  \begin{center}
+    \vspace{2.5cm}
+    {\fontsize{32}{40}\selectfont \textcolor{white}{\textbf{谢谢}}}
+    \vspace{1cm}
+
+    {\Large \textcolor{white!80}{扫描小程序码，开始你的音乐之旅}}
+    \vspace{1.2cm}
+
+    \begin{tikzpicture}
+      \node[draw=white!40, rounded corners, fill=white!10, minimum size=3cm] {};
+      \node[font=\fontsize{12}{14}\selectfont, text=white!60] at (0,0) {小程序码};
+    \end{tikzpicture}
+
+    \vspace{0.8cm}
+    {\normalsize \textcolor{white!50}{音乐学院 × 计算机学院 联合出品}}
+  \end{center}
+\end{frame}
+\endgroup
+
+\end{document}

@@ -1,0 +1,51 @@
+\frametitle{关键 SQL 示例}
+\vspace{4pt}
+  \begin{columns}[T]
+    \column{0.65\textwidth}
+    \begin{block}{查询某型号在时间段内的可用乐器（防超卖核心）}
+      \tiny
+      \begin{verbatim}
+SELECT i.* FROM instruments i
+WHERE i.model_id = :modelId
+  AND i.status = 'IN_STOCK'
+  AND i.id NOT IN (
+    SELECT r.instrument_id FROM reservations r
+    WHERE r.status IN ('UNPAID', 'RESERVED', 'RENTED')
+      AND r.start_time < :endTime
+      AND r.end_time   > :startTime
+  )
+ORDER BY i.id
+LIMIT :quantity;
+      \end{verbatim}
+    \end{block}
+
+    \column{0.32\textwidth}
+    \begin{exampleblock}{查询过期预约}
+      \footnotesize
+      \begin{verbatim}
+SELECT * FROM reservations
+WHERE status IN ('UNPAID','RESERVED')
+  AND created_at < :deadline;
+      \end{verbatim}
+
+      {\footnotesize
+      定期清理需结合 \textbf{Quartz} 定时任务与 \textbf{Redis 分布式锁}
+      }
+    \end{exampleblock}
+  \end{columns}
+
+  \vspace{6pt}
+  \textbf{并发控制策略：}
+  \begin{center}
+    \begin{tikzpicture}[
+      box/.style={draw, rounded corners, minimum width=2.5cm, minimum height=0.6cm,
+                  font=\footnotesize, fill=positive!8},
+      arr/.style={-{Stealth}, thick, positive}
+    ]
+      \node[box] (a) {Redis 分布式锁};
+      \node[box, right=1.2cm of a] (b) {SELECT ... FOR UPDATE};
+      \node[box, right=1.2cm of b] (c) {Instrument.version (乐观锁)};
+      \draw[arr] (a) -- (b);
+      \draw[arr] (b) -- (c);
+    \end{tikzpicture}
+  \end{center}
