@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
@@ -37,4 +38,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     @Query("SELECT r FROM Reservation r WHERE r.status IN ('RESERVED', 'RENTED') AND r.startTime < :endTime AND r.endTime > :startTime AND r.instrument.id IN :instrumentIds")
     List<Reservation> findConflictingReservations(List<Long> instrumentIds, LocalDateTime startTime, LocalDateTime endTime);
+
+    Optional<Reservation> findFirstByInstrumentIdAndStatusOrderByCreatedAtDesc(Long instrumentId, ReservationStatus status);
+
+    boolean existsByPickupCode(String pickupCode);
 }
