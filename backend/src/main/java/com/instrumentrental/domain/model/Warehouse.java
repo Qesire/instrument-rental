@@ -34,5 +34,6 @@ public class Warehouse {
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
+        if (status == null) status = "ACTIVE";
     }
 }

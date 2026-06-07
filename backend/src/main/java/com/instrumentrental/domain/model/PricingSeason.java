@@ -32,4 +32,9 @@ public class PricingSeason {
 
     @Builder.Default
     private int priority = 0;
+
+    @PrePersist
+    protected void onCreate() {
+        if (coefficient == null) coefficient = BigDecimal.ONE;
+    }
 }

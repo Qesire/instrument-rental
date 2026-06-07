@@ -49,6 +49,7 @@ public class InstrumentModel {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
+        if (status == null) status = "ACTIVE";
     }
 
     @PreUpdate

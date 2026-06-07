@@ -22,7 +22,7 @@ public class MaintenanceLog {
     @JoinColumn(name = "instrument_id", nullable = false)
     private Instrument instrument;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String issueDescription;
 
     @Builder.Default
@@ -35,5 +35,6 @@ public class MaintenanceLog {
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
+        if (status == null) status = "PENDING";
     }
 }

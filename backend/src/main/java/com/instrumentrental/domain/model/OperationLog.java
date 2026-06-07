@@ -22,6 +22,7 @@ public class OperationLog {
     @JoinColumn(name = "operator_id")
     private User operator;
 
+    @Column(nullable = false)
     private String action;
 
     private String targetType;

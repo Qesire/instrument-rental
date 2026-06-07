@@ -52,6 +52,7 @@ public class Instrument {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
+        if (status == null) status = InstrumentStatus.IN_STOCK;
     }
 
     @PreUpdate

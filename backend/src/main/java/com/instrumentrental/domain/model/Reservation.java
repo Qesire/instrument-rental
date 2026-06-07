@@ -27,6 +27,7 @@ public class Reservation {
     @JoinColumn(name = "instrument_id", nullable = false)
     private Instrument instrument;
 
+    @Column(nullable = false)
     private LocalDateTime startTime;
 
     @Column(nullable = false)
@@ -52,6 +53,7 @@ public class Reservation {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
+        if (status == null) status = ReservationStatus.UNPAID;
     }
 
     @PreUpdate
