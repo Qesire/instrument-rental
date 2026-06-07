@@ -14,10 +14,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.instrumentrental.domain.enums.InstrumentStatus;
+import com.instrumentrental.domain.enums.PaymentStatus;
 import com.instrumentrental.domain.enums.ReservationStatus;
 import com.instrumentrental.domain.model.Instrument;
 import com.instrumentrental.domain.model.InstrumentModel;
 import com.instrumentrental.domain.model.OverdueRecord;
+import com.instrumentrental.domain.model.Payment;
 import com.instrumentrental.domain.model.Reservation;
 import com.instrumentrental.domain.model.User;
 import com.instrumentrental.domain.repository.InstrumentModelRepository;
@@ -134,7 +136,10 @@ public class ReservationService {
 
         // 如果已支付（RESERVED），发起退款
         if (currentStatus == ReservationStatus.RESERVED) {
-            paymentService.refund(reservation.getId());
+            Payment payment = paymentService.findByReservationId(reservationId);
+            if (payment != null && payment.getStatus() == PaymentStatus.PAID) {
+                paymentService.refund(payment.getId());
+            }
         }
 
         // 释放乐器
@@ -212,7 +217,7 @@ public class ReservationService {
                             reservation.getEndTime().toLocalDate(), LocalDateTime.now().toLocalDate()))
                     .build();
             overdueRecordRepository.save(overdueRecord);
-            notificationService.sendOverdueAlert(reservation.getUser(), reservation);
+            notificationService.sendOverdueAlert(overdueRecord);
             log.warn("Overdue return: reservation {} instrument {} by user {}",
                     reservation.getId(), instrument.getId(), reservation.getUser().getId());
         }

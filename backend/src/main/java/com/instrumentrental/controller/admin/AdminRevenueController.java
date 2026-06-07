@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @RestController
 @RequestMapping("/api/admin/revenue")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('ROLE_ADMIN')")
+@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 public class AdminRevenueController {
 
     private final PaymentRepository paymentRepository;
