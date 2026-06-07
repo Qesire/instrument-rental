@@ -58,7 +58,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="warehouse" label="仓库" width="120" />
+        <el-table-column prop="warehouseName" label="仓库" width="120" />
       </el-table>
     </el-card>
   </div>
@@ -102,7 +102,8 @@ onMounted(async () => {
       getInstruments()
     ])
     dashboard.value = (dashRes as any).data ?? dashRes
-    instruments.value = (instRes as any).data ?? instRes
+    // getInstruments returns PageResponse, extract content array
+    instruments.value = (instRes as any).data?.content ?? (instRes as any).data ?? instRes
   } catch (e) {
     // handled by interceptor
   }
