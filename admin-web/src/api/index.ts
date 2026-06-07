@@ -61,6 +61,6 @@ export const scanCheckin = (data: { barcode: string; damaged: boolean }) =>
 
 // Auth API
 export const loginApi = (data: { phone: string; password: string }) =>
-  api.post('/admin/auth/login', data)
+  api.post('/auth/login', data)
 
 export default api
