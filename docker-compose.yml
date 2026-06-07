@@ -1,0 +1,28 @@
+services:
+  postgres:
+    image: docker.m.daocloud.io/library/postgres:15
+    environment:
+      POSTGRES_DB: instrument_rental
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  redis:
+    image: docker.m.daocloud.io/library/redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  rabbitmq:
+    image: docker.m.daocloud.io/library/rabbitmq:3-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+volumes:
+  pgdata:
