@@ -1,0 +1,122 @@
+<!-- 乐器详情页 -->
+<view class="container" wx:if="{{model}}">
+  <!-- 图片轮播 -->
+  <swiper
+    class="image-swiper"
+    indicator-dots="{{model.images && model.images.length > 1}}"
+    bindchange="onSwiperChange"
+  >
+    <swiper-item wx:for="{{model.images || ['']}}" wx:key="index">
+      <image class="swiper-image" src="{{item}}" mode="aspectFill" />
+    </swiper-item>
+  </swiper>
+
+  <!-- 基本信息 -->
+  <view class="card">
+    <view class="model-header">
+      <text class="model-title">{{model.name}}</text>
+      <text class="text-muted">{{model.brand}}</text>
+    </view>
+    <view class="model-specs">
+      <view class="spec-item" wx:if="{{model.specs}}">
+        <text class="text-muted">规格：{{model.specs}}</text>
+      </view>
+    </view>
+    <view class="model-price-row">
+      <view>
+        <text class="price">¥{{model.dailyRate}}</text>
+        <text class="text-muted">/天</text>
+      </view>
+      <view>
+        <text class="text-muted">可租数量：</text>
+        <text class="price">{{model.availableCount || 0}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 预约表单 -->
+  <view class="card">
+    <view class="section-title">选择租赁时间</view>
+
+    <view class="form-row">
+      <text class="form-label">开始日期</text>
+      <picker
+        mode="date"
+        start="{{today}}"
+        value="{{startDate}}"
+        bindchange="onStartDateChange"
+      >
+        <view class="form-picker {{startDate ? '' : 'form-picker-placeholder'}}">
+          {{startDate || '请选择开始日期'}}
+        </view>
+      </picker>
+    </view>
+
+    <view class="form-row">
+      <text class="form-label">结束日期</text>
+      <picker
+        mode="date"
+        start="{{startDate || today}}"
+        value="{{endDate}}"
+        bindchange="onEndDateChange"
+      >
+        <view class="form-picker {{endDate ? '' : 'form-picker-placeholder'}}">
+          {{endDate || '请选择结束日期'}}
+        </view>
+      </picker>
+    </view>
+
+    <view class="form-row">
+      <text class="form-label">租赁数量</text>
+      <view class="quantity-stepper">
+        <view class="qty-btn" bindtap="onQuantityMinus">-</view>
+        <text class="qty-value">{{quantity}}</text>
+        <view class="qty-btn" bindtap="onQuantityPlus">+</view>
+      </view>
+    </view>
+
+    <button
+      class="btn-primary quote-btn"
+      loading="{{quoteLoading}}"
+      bindtap="onGetQuote"
+    >
+      {{quoteLoading ? '计算中...' : '获取报价'}}
+    </button>
+  </view>
+
+  <!-- 报价结果 -->
+  <view class="card" wx:if="{{quote}}">
+    <view class="section-title">费用明细</view>
+
+    <view class="quote-row">
+      <text class="text-muted">日租金</text>
+      <text>¥{{quote.dailyRate}} × {{quote.totalDays}}天 × {{quantity}}件</text>
+    </view>
+    <view class="quote-row">
+      <text class="text-muted">租金小计</text>
+      <text class="price">¥{{quote.totalRental}}</text>
+    </view>
+    <view class="quote-row">
+      <text class="text-muted">押金</text>
+      <text class="price">¥{{quote.deposit}}</text>
+    </view>
+    <view class="quote-divider"></view>
+    <view class="quote-row quote-total">
+      <text>合计</text>
+      <text class="price">¥{{quote.totalAmount}}</text>
+    </view>
+
+    <button
+      class="btn-primary reserve-btn"
+      loading="{{submitting}}"
+      bindtap="onReserveNow"
+    >
+      {{submitting ? '提交中...' : '立即预约'}}
+    </button>
+  </view>
+</view>
+
+<!-- 加载中 -->
+<view class="loading-container" wx:if="{{!model}}">
+  <text class="text-muted">加载中...</text>
+</view>

@@ -1,0 +1,64 @@
+<!-- 我的预约 -->
+<view class="container">
+  <!-- 未登录提示 -->
+  <view class="login-tip" wx:if="{{!reservations.length && !loading}}">
+    <text class="text-muted">暂无预约记录</text>
+    <text class="text-muted login-hint">登录后查看您的预约</text>
+  </view>
+
+  <!-- 预约列表 -->
+  <view
+    class="reservation-card card"
+    wx:for="{{reservations}}"
+    wx:key="id"
+  >
+    <view class="res-header">
+      <view>
+        <text class="res-name">{{item.modelName}}</text>
+        <text class="text-muted res-brand">{{item.brand}}</text>
+      </view>
+      <view class="{{'tag tag-' + item.status.toLowerCase()}}">
+        {{item.status === 'UNPAID' ? '待支付' : ''}}
+        {{item.status === 'RESERVED' ? '已预约' : ''}}
+        {{item.status === 'RENTED' ? '租赁中' : ''}}
+        {{item.status === 'RETURNED' ? '已归还' : ''}}
+        {{item.status === 'CANCELLED' ? '已取消' : ''}}
+        {{item.status === 'EXPIRED' ? '已过期' : ''}}
+      </view>
+    </view>
+
+    <view class="res-body">
+      <view class="res-row">
+        <text class="text-muted">租赁时间</text>
+        <text>{{item.startTime}} 至 {{item.endTime}}</text>
+      </view>
+      <view class="res-row" wx:if="{{item.pickupCode}}">
+        <text class="text-muted">取货码</text>
+        <text class="pickup-code">{{item.pickupCode}}</text>
+      </view>
+      <view class="res-row">
+        <text class="text-muted">金额</text>
+        <text class="price">¥{{item.totalAmount || 0}}</text>
+      </view>
+    </view>
+
+    <view class="res-footer">
+      <text class="text-muted">创建时间：{{item.createdAt}}</text>
+      <button
+        wx:if="{{item.status === 'UNPAID' || item.status === 'RESERVED'}}"
+        class="cancel-btn"
+        data-id="{{item.id}}"
+        data-status="{{item.status}}"
+        bindtap="onCancelReservation"
+      >
+        取消预约
+      </button>
+    </view>
+  </view>
+
+  <!-- 加载更多 -->
+  <view class="load-more">
+    <text wx:if="{{loading}}">加载中...</text>
+    <text wx:elif="{{!hasMore && reservations.length}}">没有更多了</text>
+  </view>
+</view>

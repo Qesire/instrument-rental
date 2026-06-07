@@ -1,0 +1,71 @@
+<!-- 乐器列表页 -->
+<view class="container">
+  <!-- 搜索栏 -->
+  <view class="search-row">
+    <view class="search-input-wrap">
+      <input
+        class="search-input"
+        placeholder="搜索乐器名称"
+        value="{{keyword}}"
+        bindinput="onSearchInput"
+        bindconfirm="onSearchConfirm"
+      />
+      <text class="search-clear" wx:if="{{keyword}}" bindtap="onSearchClear">✕</text>
+    </view>
+  </view>
+
+  <!-- 分类筛选 -->
+  <scroll-view class="category-filter" scroll-x>
+    <view
+      class="filter-tag {{activeCategory === null ? 'active' : ''}}"
+      bindtap="onCategoryTap"
+      data-id=""
+    >
+      全部
+    </view>
+    <view
+      class="filter-tag {{activeCategory === item.id ? 'active' : ''}}"
+      wx:for="{{categories}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="onCategoryTap"
+    >
+      {{item.name}}
+    </view>
+  </scroll-view>
+
+  <!-- 型号列表 -->
+  <view class="model-list">
+    <view
+      class="model-card"
+      wx:for="{{models}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="onModelTap"
+    >
+      <image
+        class="model-image"
+        src="{{item.images && item.images[0] || ''}}"
+        mode="aspectFill"
+      />
+      <view class="model-info">
+        <text class="model-name">{{item.name}}</text>
+        <text class="text-muted">{{item.brand}}</text>
+        <view class="model-footer">
+          <text class="price">¥{{item.dailyRate}}<text class="text-muted">/天</text></text>
+          <view class="model-stock">
+            <text class="text-muted">可租</text>
+            <text class="stock-count">{{item.availableCount || 0}}</text>
+            <text class="text-muted">件</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 加载更多 -->
+  <view class="load-more">
+    <text wx:if="{{loading}}">加载中...</text>
+    <text wx:elif="{{!hasMore}}">没有更多了</text>
+  </view>
+</view>

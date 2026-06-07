@@ -1,0 +1,143 @@
+/* 乐器详情页样式 */
+.image-swiper {
+  width: 100%;
+  height: 500rpx;
+  border-radius: 12rpx;
+  overflow: hidden;
+  margin-bottom: 20rpx;
+}
+
+.swiper-image {
+  width: 100%;
+  height: 100%;
+  background-color: #f5f5f5;
+}
+
+.model-header {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16rpx;
+}
+
+.model-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 8rpx;
+}
+
+.model-specs {
+  margin-bottom: 20rpx;
+}
+
+.spec-item {
+  padding: 4rpx 0;
+}
+
+.model-price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16rpx;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  margin-bottom: 24rpx;
+  color: #333333;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24rpx;
+}
+
+.form-label {
+  font-size: 28rpx;
+  color: #333333;
+  width: 160rpx;
+}
+
+.form-picker {
+  padding: 12rpx 24rpx;
+  background-color: #f8f8f8;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  min-width: 320rpx;
+  text-align: right;
+}
+
+.form-picker-placeholder {
+  color: #cccccc;
+}
+
+.quantity-stepper {
+  display: flex;
+  align-items: center;
+  border: 1rpx solid #e0e0e0;
+  border-radius: 8rpx;
+  overflow: hidden;
+}
+
+.qty-btn {
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f8f8;
+  font-size: 32rpx;
+  color: #333333;
+}
+
+.qty-btn:active {
+  background-color: #e8e8e8;
+}
+
+.qty-value {
+  width: 80rpx;
+  text-align: center;
+  font-size: 28rpx;
+  color: #333333;
+}
+
+.quote-btn {
+  margin-top: 20rpx;
+  width: 100%;
+}
+
+/* 报价结果 */
+.quote-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12rpx 0;
+  font-size: 28rpx;
+}
+
+.quote-divider {
+  height: 1rpx;
+  background-color: #f0f0f0;
+  margin: 12rpx 0;
+}
+
+.quote-total {
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.reserve-btn {
+  margin-top: 30rpx;
+  width: 100%;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+}

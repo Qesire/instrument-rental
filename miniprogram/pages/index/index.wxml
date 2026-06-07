@@ -1,0 +1,62 @@
+<!-- 首页 -->
+<view class="container">
+  <!-- 搜索栏 -->
+  <view class="search-bar" bindtap="onSearchTap">
+    <text class="search-icon">🔍</text>
+    <text class="search-placeholder">搜索乐器</text>
+  </view>
+
+  <!-- Banner -->
+  <swiper class="banner-swiper" indicator-dots autoplay interval="4000" circular>
+    <swiper-item wx:for="{{banners}}" wx:key="id">
+      <view class="banner-item">
+        <text class="banner-title">{{item.title}}</text>
+      </view>
+    </swiper-item>
+  </swiper>
+
+  <!-- 分类网格 -->
+  <view class="section">
+    <view class="section-title">乐器分类</view>
+    <view class="category-grid">
+      <view
+        class="category-item"
+        wx:for="{{categories}}"
+        wx:key="id"
+        data-id="{{item.id}}"
+        bindtap="onCategoryTap"
+      >
+        <view class="category-icon">🎵</view>
+        <text class="category-name">{{item.name}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 推荐型号 -->
+  <view class="section">
+    <view class="section-title">热门推荐</view>
+    <view class="model-list">
+      <view
+        class="model-card"
+        wx:for="{{recommendations}}"
+        wx:key="id"
+        data-id="{{item.id}}"
+        bindtap="onModelTap"
+      >
+        <image
+          class="model-image"
+          src="{{item.images && item.images[0] || ''}}"
+          mode="aspectFill"
+        />
+        <view class="model-info">
+          <text class="model-name">{{item.name}}</text>
+          <text class="model-brand text-muted">{{item.brand}}</text>
+          <view class="model-footer">
+            <text class="price">¥{{item.dailyRate}}<text class="text-muted">/天起</text></text>
+            <text class="text-muted">可租{{item.availableCount || 0}}件</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
