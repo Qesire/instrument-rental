@@ -174,6 +174,11 @@ instrument-rental/
 | POST | /api/admin/scan/checkin | 扫码入库 |
 | GET | /api/admin/revenue/summary | 营收统计 |
 
+## 默认管理员
+
+- 手机号：`13800000001`
+- 密码：`admin123`
+
 ## License
 
 MIT
